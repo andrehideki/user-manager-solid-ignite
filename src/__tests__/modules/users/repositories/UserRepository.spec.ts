@@ -44,7 +44,11 @@ describe("UserRepository", () => {
         expect(findedUser).toMatchObject(savedUser);
     });
     
+    it("Should be able to find user by e-mail address", async () => {
+        const user = createUser();
+        const savedUser = await userRepository.create({ name: user.name, email: user.email });
+        const findedUser = await userRepository.findByEmail(savedUser.email);
+        expect(findedUser).toMatchObject(savedUser);
+    });
     
-//    Para que esse teste passe, é necessário que o método `findById` do arquivo 
-// **src/modules/users/repositories/implementations/UsersRepository** receba o `id` ****de um usuário e ****retorne o usuário que possui o mesmo `id`.
-});
+  });

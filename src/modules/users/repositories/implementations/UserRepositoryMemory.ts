@@ -9,6 +9,7 @@ class UserRepositoryMemory implements IUserRepository {
     private constructor() {
         this.users = [];
     }
+    
    
     public static getInstance(): IUserRepository {
         if (!UserRepositoryMemory.INSTANCE) {
@@ -20,6 +21,13 @@ class UserRepositoryMemory implements IUserRepository {
     findById(id: string): Promise<User|undefined> {
         return new Promise((resolve) => {
             const user = this.users.find(u => u.id === id);
+            resolve(user);
+        });
+    }
+
+    findByEmail(email: string): Promise<User | undefined> {
+        return new Promise((resolve) => {
+            const user = this.users.find(u => u.email === email);
             resolve(user);
         });
     }
