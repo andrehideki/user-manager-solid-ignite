@@ -1,5 +1,5 @@
 import { User } from "../../models/User";
-import { IUserRepository } from "../IUserRepository";
+import { IUserRepository, IUserRepositoryCreate } from "../IUserRepository";
 
 class UserRepositoryMemory implements IUserRepository {
 
@@ -17,8 +17,9 @@ class UserRepositoryMemory implements IUserRepository {
         return UserRepositoryMemory.INSTANCE;
     }
 
-    create(user: User): Promise<User> {
+    create(params: IUserRepositoryCreate): Promise<User> {
         return new Promise((resolve, reject) => {
+            const user = new User("", params.name, !!params.admin, params.email, new Date(), new Date());
             this.users.push(user);
             return resolve(user);
         });

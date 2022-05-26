@@ -1,7 +1,16 @@
 import { User } from "../models/User";
 
-interface IUserRepository {
-    create(user: User): Promise<User>;
+interface IUserRepositoryCreate {
+    name: string;
+    email: string;
+    admin?: boolean;
 }
 
-export { IUserRepository };
+interface IUserRepository {
+    create(user: IUserRepositoryCreate): Promise<User>;
+}
+
+export { 
+    IUserRepository, 
+    IUserRepositoryCreate 
+};
