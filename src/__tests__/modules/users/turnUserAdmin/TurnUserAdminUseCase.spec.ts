@@ -1,4 +1,3 @@
-import { validate } from "uuid";
 import { User } from "../../../../modules/users/models/User";
 import { UserRepositoryMemory } from "../../../../modules/users/repositories/implementations/UserRepositoryMemory";
 import { IUserRepository } from "../../../../modules/users/repositories/IUserRepository";
@@ -22,5 +21,13 @@ describe("TurnUserAdminUseCase", () => {
         await turnUserAdminUsecase.execute(user.id);
         const findedUser = await userRepository.findById(user.id);
         expect(findedUser?.admin).toBeTruthy();
+    });
+
+    it("Should not be able to turn a non existing user as admin", async () => {
+        try {
+            await turnUserAdminUsecase.execute("non existing");
+        } catch (error: any) {
+            expect(error.message).toBe("User not found");
+        }
     });
 });
