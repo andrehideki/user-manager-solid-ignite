@@ -37,6 +37,14 @@ describe("UserRepository", () => {
         });
     });
 
-    // Para que esse teste passe, é necessário que o método `list` do arquivo 
-    //**src/modules/users/repositories/implementations/UsersRepository** retorne a lista de todos os usuários cadastrados na aplicação.
+    it("Should be able to find user by ID", async () => {
+        const user = createUser();
+        const savedUser = await userRepository.create({ name: user.name, email: user.email });
+        const findedUser = await userRepository.findById(savedUser.id);
+        expect(findedUser).toMatchObject(savedUser);
+    });
+    
+    
+//    Para que esse teste passe, é necessário que o método `findById` do arquivo 
+// **src/modules/users/repositories/implementations/UsersRepository** receba o `id` ****de um usuário e ****retorne o usuário que possui o mesmo `id`.
 });

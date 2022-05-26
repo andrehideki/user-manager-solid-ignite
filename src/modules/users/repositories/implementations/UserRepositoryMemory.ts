@@ -9,13 +9,19 @@ class UserRepositoryMemory implements IUserRepository {
     private constructor() {
         this.users = [];
     }
-  
-
+   
     public static getInstance(): IUserRepository {
         if (!UserRepositoryMemory.INSTANCE) {
             UserRepositoryMemory.INSTANCE = new UserRepositoryMemory();
         }
         return UserRepositoryMemory.INSTANCE;
+    }
+
+    findById(id: string): Promise<User|undefined> {
+        return new Promise((resolve) => {
+            const user = this.users.find(u => u.id === id);
+            resolve(user);
+        });
     }
 
     create(params: IUserRepositoryCreate): Promise<User> {

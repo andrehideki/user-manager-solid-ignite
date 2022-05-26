@@ -9,6 +9,7 @@ interface IUserRepositoryCreate {
 interface IUserRepository {
     create(user: IUserRepositoryCreate): Promise<User>;
     list(): Promise<User[]>;
+    findById(id: string): Promise<User|undefined>;
 }
 
 export { 
