@@ -9,7 +9,7 @@ class UserRepositoryMemory implements IUserRepository {
     private constructor() {
         this.users = [];
     }
-    
+   
     
    
     public static getInstance(): IUserRepository {
@@ -19,39 +19,33 @@ class UserRepositoryMemory implements IUserRepository {
         return UserRepositoryMemory.INSTANCE;
     }
 
-    findById(id: string): Promise<User|undefined> {
-        return new Promise((resolve) => {
-            const user = this.users.find(u => u.id === id);
-            resolve(user);
-        });
+    async findById(id: string): Promise<User|undefined> {
+        const user = this.users.find(u => u.id === id);
+        return user;
     }
 
-    findByEmail(email: string): Promise<User | undefined> {
-        return new Promise((resolve) => {
-            const user = this.users.find(u => u.email === email);
-            resolve(user);
-        });
+    async findByEmail(email: string): Promise<User | undefined> {
+        const user = this.users.find(u => u.email === email);
+        return user;
     }
 
-    create(params: IUserRepositoryCreate): Promise<User> {
-        return new Promise((resolve) => {
-            const user = new User("", params.name, !!params.admin, params.email, new Date(), new Date());
-            this.users.push(user);
-            return resolve(user);
-        });
+    async create(params: IUserRepositoryCreate): Promise<User> {
+        const user = new User("", params.name, !!params.admin, params.email, new Date(), new Date());
+        this.users.push(user);
+        return user;
     }
-
-    list(): Promise<User[]> {
+    
+    async list(): Promise<User[]> {
         return new Promise((resolve) => resolve(this.users));
     }
 
-    turnAdmin(user: User): Promise<User | undefined> {
+    async turnAdmin(user: User): Promise<User | undefined> {
         const savedUser = this.users.find(u => u.id === user.id);
         if (savedUser) {
             savedUser.admin = true;
             savedUser.updatedAt = new Date();
         }
-        return new Promise((resolve) => resolve(savedUser));
+        return savedUser;
     }   
 }
 
