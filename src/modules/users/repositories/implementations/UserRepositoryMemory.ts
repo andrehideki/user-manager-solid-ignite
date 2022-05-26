@@ -9,6 +9,7 @@ class UserRepositoryMemory implements IUserRepository {
     private constructor() {
         this.users = [];
     }
+  
 
     public static getInstance(): IUserRepository {
         if (!UserRepositoryMemory.INSTANCE) {
@@ -18,13 +19,16 @@ class UserRepositoryMemory implements IUserRepository {
     }
 
     create(params: IUserRepositoryCreate): Promise<User> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const user = new User("", params.name, !!params.admin, params.email, new Date(), new Date());
             this.users.push(user);
             return resolve(user);
         });
     }
 
+    list(): Promise<User[]> {
+        return new Promise((resolve) => resolve(this.users));
+    }
 }
 
 export { UserRepositoryMemory };
