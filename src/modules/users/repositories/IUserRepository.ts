@@ -11,6 +11,7 @@ interface IUserRepository {
     list(): Promise<User[]>;
     findById(id: string): Promise<User|undefined>;
     findByEmail(email: string): Promise<User|undefined>;
+    turnAdmin(user: User): Promise<User|undefined>;
 }
 
 export { 

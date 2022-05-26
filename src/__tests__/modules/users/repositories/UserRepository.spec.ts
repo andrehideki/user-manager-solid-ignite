@@ -51,4 +51,16 @@ describe("UserRepository", () => {
         expect(findedUser).toMatchObject(savedUser);
     });
     
+    it("Should be able to turn an user as admin", async () => {
+        const user = createUser();
+        const savedUser = await userRepository.create({ name: user.name, email: user.email });
+        await userRepository.turnAdmin(savedUser);
+        const findedUser = await userRepository.findById(savedUser.id);
+        expect(findedUser).toMatchObject({
+            name: user.name,
+            email: user.email,
+            admin: true
+        });
+    });
+   
   });

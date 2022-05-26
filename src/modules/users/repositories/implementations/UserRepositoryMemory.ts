@@ -10,6 +10,7 @@ class UserRepositoryMemory implements IUserRepository {
         this.users = [];
     }
     
+    
    
     public static getInstance(): IUserRepository {
         if (!UserRepositoryMemory.INSTANCE) {
@@ -43,6 +44,15 @@ class UserRepositoryMemory implements IUserRepository {
     list(): Promise<User[]> {
         return new Promise((resolve) => resolve(this.users));
     }
+
+    turnAdmin(user: User): Promise<User | undefined> {
+        const savedUser = this.users.find(u => u.id === user.id);
+        if (savedUser) {
+            savedUser.admin = true;
+            savedUser.updatedAt = new Date();
+        }
+        return new Promise((resolve) => resolve(savedUser));
+    }   
 }
 
 export { UserRepositoryMemory };
