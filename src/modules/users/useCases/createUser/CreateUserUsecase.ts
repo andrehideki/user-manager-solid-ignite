@@ -10,7 +10,11 @@ class CreateUserUsecase {
     constructor(private userRepository: IUserRepository) {}
 
     async execute({ name, email }: Input) {
-        const user = await this.userRepository.create({ name, email});
+        const userWithSameEmail = await this.userRepository.findByEmail(email);
+        if (userWithSameEmail) {
+            throw new Error("Email is already taken");
+        }
+        const user = await this.userRepository.create({ name, email });
         return user;
     }
 }

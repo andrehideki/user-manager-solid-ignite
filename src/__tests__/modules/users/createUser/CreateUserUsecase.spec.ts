@@ -24,4 +24,14 @@ describe("CreateUserUsecase", () => {
             admin: false
         });
     });
+
+    it("Should not be able to create new users when email is already taken", async () => {
+        try {
+            const user = createUser();
+            await createUserUsecase.execute({ name: user.name, email: user.email });
+            await createUserUsecase.execute({ name: user.name, email: user.email });
+        } catch (error: any) {
+            expect(error.message).toBe("Email is already taken");
+        }
+    });
 });
