@@ -5,6 +5,7 @@
     },
     "extends": [
         "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -16,5 +17,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "semi": ["error"],
+        "quotes": ["error", "double"]
     }
 }
