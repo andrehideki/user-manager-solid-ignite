@@ -34,4 +34,14 @@ describe("TurnUserAdminUseCase", () => {
             expect(error.message).toBe("Not allowed");
         }
     });
+
+    it("Should not be able to a non existing user get list of all users", async () => {
+        try {
+            let userDefault = createUser();
+            userDefault = await userRepository.create({ name: userDefault.name, email: userDefault.email });
+            await listAllUsersUseCase.execute("not_existing_id");
+        } catch (error: any) {
+            expect(error.message).toBe("User not found");
+        }
+    });
 });
