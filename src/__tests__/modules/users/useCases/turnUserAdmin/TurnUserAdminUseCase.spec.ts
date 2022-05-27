@@ -1,8 +1,8 @@
-import { User } from "../../../../modules/users/models/User";
-import { UserRepositoryMemory } from "../../../../modules/users/repositories/implementations/UserRepositoryMemory";
-import { IUserRepository } from "../../../../modules/users/repositories/IUserRepository";
-import { TurnUserAdminUsecase } from "../../../../modules/users/turnUserAdmin/TurnUserAdminUseCase";
-import { createUser } from "../builders/UserBuilder";
+import { User } from "../../../../../modules/users/models/User";
+import { UserRepositoryMemory } from "../../../../../modules/users/repositories/implementations/UserRepositoryMemory";
+import { IUserRepository } from "../../../../../modules/users/repositories/IUserRepository";
+import { TurnUserAdminUsecase } from "../../../../../modules/users/useCases/turnUserAdmin/TurnUserAdminUseCase";
+import { createUser } from "../../builders/UserBuilder";
 
 describe("TurnUserAdminUseCase", () => {
 

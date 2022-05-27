@@ -1,8 +1,8 @@
 import { validate } from "uuid";
-import { UserRepositoryMemory } from "../../../../modules/users/repositories/implementations/UserRepositoryMemory";
-import { IUserRepository } from "../../../../modules/users/repositories/IUserRepository";
-import { CreateUserUsecase } from "../../../../modules/users/useCases/createUser/CreateUserUsecase";
-import { createUser } from "../builders/UserBuilder";
+import { UserRepositoryMemory } from "../../../../../modules/users/repositories/implementations/UserRepositoryMemory";
+import { IUserRepository } from "../../../../../modules/users/repositories/IUserRepository";
+import { CreateUserUsecase } from "../../../../../modules/users/useCases/createUser/CreateUserUsecase";
+import { createUser } from "../../builders/UserBuilder";
 
 describe("CreateUserUsecase", () => {
     
