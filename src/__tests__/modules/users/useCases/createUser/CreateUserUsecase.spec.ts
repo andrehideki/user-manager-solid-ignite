@@ -1,17 +1,17 @@
 import { validate } from "uuid";
 import { UserRepositoryMemory } from "../../../../../modules/users/repositories/implementations/UserRepositoryMemory";
 import { IUserRepository } from "../../../../../modules/users/repositories/IUserRepository";
-import { CreateUserUsecase } from "../../../../../modules/users/useCases/createUser/CreateUserUsecase";
+import { CreateUserUseCase } from "../../../../../modules/users/useCases/createUser/CreateUserUseCase";
 import { createUser } from "../../builders/UserBuilder";
 
 describe("CreateUserUsecase", () => {
     
     let userRepository: IUserRepository;
-    let createUserUsecase: CreateUserUsecase;
+    let createUserUsecase: CreateUserUseCase;
 
     beforeEach(() => {
         userRepository = UserRepositoryMemory.getInstance();
-        createUserUsecase = new CreateUserUsecase(userRepository);
+        createUserUsecase = new CreateUserUseCase(userRepository);
     });
      
     it("Should be able to create new users", async () => {

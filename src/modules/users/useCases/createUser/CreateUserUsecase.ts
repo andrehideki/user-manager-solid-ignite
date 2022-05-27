@@ -5,7 +5,7 @@ interface Input {
     email: string;
 }
 
-class CreateUserUsecase {
+class CreateUserUseCase {
 
     constructor(private userRepository: IUserRepository) {}
 
@@ -19,4 +19,4 @@ class CreateUserUsecase {
     }
 }
 
-export { CreateUserUsecase };
+export { CreateUserUseCase };
