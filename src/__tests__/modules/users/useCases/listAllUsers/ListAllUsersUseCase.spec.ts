@@ -8,7 +8,6 @@ describe("TurnUserAdminUseCase", () => {
 
     let listAllUsersUseCase: ListAllUsersUseCase;
     let userRepository: IUserRepository;
-    let user: User;
 
     beforeEach(async () => {
         userRepository = UserRepositoryMemory.getInstance();
@@ -16,21 +15,23 @@ describe("TurnUserAdminUseCase", () => {
     });
      
     it("Should be able to get user profile by ID", async () => {
-        let user1 = createUser();
-        user1 = await userRepository.create({ name: user1.name, email: user1.email });
-        let user2 = createUser();
-        user2 = await userRepository.create({ name: user2.name, email: user2.email });
-        const users = await listAllUsersUseCase.execute();
+        let userAdmin = createUser();
+        userAdmin = await userRepository.create({ name: userAdmin.name, email: userAdmin.email, admin: true });
+        let userDefault = createUser();
+        userDefault = await userRepository.create({ name: userDefault.name, email: userDefault.email });
+        const users = await listAllUsersUseCase.execute(userAdmin.id);
         expect(users.length >= 2).toBeTruthy();
-        expect(users.find(u => u.id === user1.id)).toMatchObject(user1);
-        expect(users.find(u => u.id === user2.id)).toMatchObject(user2);
+        expect(users.find(u => u.id === userAdmin.id)).toMatchObject(userAdmin);
+        expect(users.find(u => u.id === userDefault.id)).toMatchObject(userDefault);
     });
 
-    // it("Should not be able to show profile of a non existing user", async () => {
-    //     try {
-    //         await showUserProfileUseCase.execute("non existing");
-    //     } catch (error: any) {
-    //         expect(error.message).toBe("User not found");
-    //     }
-    // });
+    it("Should not be able to a non admin user get list of all users", async () => {
+        try {
+            let userDefault = createUser();
+            userDefault = await userRepository.create({ name: userDefault.name, email: userDefault.email });
+            await listAllUsersUseCase.execute(userDefault.id);
+        } catch (error: any) {
+            expect(error.message).toBe("Not allowed");
+        }
+    });
 });

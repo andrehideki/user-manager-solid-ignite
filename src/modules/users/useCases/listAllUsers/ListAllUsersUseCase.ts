@@ -5,7 +5,9 @@ class ListAllUsersUseCase {
 
     constructor(private userRepository: IUserRepository) {}
 
-    async execute(): Promise<User[]> {
+    async execute(userId: string): Promise<User[]> {
+        const user = await this.userRepository.findById(userId);
+        if (!user?.admin) throw new Error("Not allowed");
         return await this.userRepository.list();
     }
 }
