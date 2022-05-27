@@ -25,11 +25,11 @@ describe("TurnUserAdminUseCase", () => {
         });
     });
 
-    // it("Should not be able to turn a non existing user as admin", async () => {
-    //     try {
-    //         await turnUserAdminUsecase.execute("non existing");
-    //     } catch (error: any) {
-    //         expect(error.message).toBe("User not found");
-    //     }
-    // });
+    it("Should not be able to show profile of a non existing user", async () => {
+        try {
+            await showUserProfileUseCase.execute("non existing");
+        } catch (error: any) {
+            expect(error.message).toBe("User not found");
+        }
+    });
 });
