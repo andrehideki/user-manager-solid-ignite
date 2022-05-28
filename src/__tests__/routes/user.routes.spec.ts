@@ -127,6 +127,17 @@ describe("user.routes", () => {
             });
         });
         
+        it("Should not be able to a non existing user get list of all users", async () => {
+            const notExistingId = "not_existing_id";
+            const response = await request(app)
+                .get("/users")
+                .set("user_id", notExistingId)
+                .expect(400);
+            expect(response.body).toMatchObject({
+                error: "User not found"
+            });
+        });
+        
     });
 
 });
