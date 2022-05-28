@@ -1,3 +1,4 @@
+import { NotFoundError } from "../../errors/notFoundError";
 import { IUserRepository } from "../../repositories/IUserRepository";
 
 class TurnUserAdminUseCase {
@@ -6,7 +7,7 @@ class TurnUserAdminUseCase {
 
     async execute(id: string) {
         const user = await this.userRepository.findById(id);
-        if (!user) throw new Error("User not found");
+        if (!user) throw new NotFoundError("User");
         await this.userRepository.turnAdmin(user);
         return user;
     }

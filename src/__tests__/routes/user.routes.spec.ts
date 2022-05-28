@@ -65,7 +65,7 @@ describe("user.routes", () => {
         it("Should not be able to turn a non existing user as admin", async () => {
             const notExistingId = "not_existing_id";
             const response = await request(app).patch(`/users/${notExistingId}/admin`)
-                .expect(400);
+                .expect(404);
             expect(response.body).toMatchObject({
                 error: "User not found"
             });
@@ -83,14 +83,14 @@ describe("user.routes", () => {
             expect(findedUser).toMatchObject(createdUser);
         });
 
-        // it("Should not be able to turn a non existing user as admin", async () => {
-        //     const notExistingId = "not_existing_id";
-        //     const response = await request(app).patch(`/users/${notExistingId}/admin`)
-        //         .expect(400);
-        //     expect(response.body).toMatchObject({
-        //         error: "User not found"
-        //     });
-        // });
+        it("Should not be able to show profile of a non existing user", async () => {
+            const notExistingId = "not_existing_id";
+            const response = await request(app).get(`/users/${notExistingId}`)
+                .expect(404);
+            expect(response.body).toMatchObject({
+                error: "User not found"
+            });
+        });
         
     });
 

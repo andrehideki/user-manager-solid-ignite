@@ -23,11 +23,11 @@ userRoutes.patch("/:user_id/admin", asyncHandler(async (request, response) => {
     await turnUserAdminController.handle(request, response);
 }));
 
-userRoutes.get("/:user_id", (request, response) => {
+userRoutes.get("/:user_id", asyncHandler(async (request, response) => {
     const showUserProfileUseCase = new ShowUserProfileUseCase(userRepository);
     const showUserProfileController = new ShowUserProfileController(showUserProfileUseCase);
-    return showUserProfileController.handle(request, response);
-});
+    await showUserProfileController.handle(request, response);
+}));
 
 // A rota deve receber, pelo header da requisição, uma propriedade `user_id` contendo o `id` do usuário e retornar uma lista com todos os usuários cadastrados. O `id` deverá ser usado para validar se o usuário que está solicitando a listagem é um admin. O retorno da lista deve ser feito apenas se o usuário for admin.
 userRoutes.get("/:user_id", (request, response) => {

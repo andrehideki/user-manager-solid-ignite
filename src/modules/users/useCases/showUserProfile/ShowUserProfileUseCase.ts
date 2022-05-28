@@ -1,3 +1,4 @@
+import { NotFoundError } from "../../errors/notFoundError";
 import { User } from "../../models/User";
 import { IUserRepository } from "../../repositories/IUserRepository";
 
@@ -7,7 +8,7 @@ class ShowUserProfileUseCase {
 
     async execute(id: string): Promise<User> {
         const user = await this.userRepository.findById(id);
-        if (!user) throw new Error("User not found");
+        if (!user) throw new NotFoundError("User");
         return user;
     }
 }
