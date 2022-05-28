@@ -1,4 +1,5 @@
 import { Router } from "express";
+import asyncHandler from "express-async-handler";
 import { UserRepositoryMemory } from "../modules/users/repositories/implementations/UserRepositoryMemory";
 import { CreateUserController } from "../modules/users/useCases/createUser/CreateUserController";
 import { CreateUserUseCase } from "../modules/users/useCases/createUser/CreateUserUseCase";
@@ -6,11 +7,11 @@ import { CreateUserUseCase } from "../modules/users/useCases/createUser/CreateUs
 const userRoutes = Router();
 const userRepository = UserRepositoryMemory.getInstance();
 
-userRoutes.post("/", async (request, response) => {
+userRoutes.post("/", asyncHandler(async (request, response) => {
     const createUserUseCase = new CreateUserUseCase(userRepository);
     const createUserController = new CreateUserController(createUserUseCase);
-    return await createUserController.handle(request, response);
-});
+    await createUserController.handle(request, response);
+}));
 
 // A rota deve receber, nos parâmetros da rota, o `id` de um usuário e transformar esse usuário em admin.
 userRoutes.patch("/:user_id/admin", (request, response) => {

@@ -27,5 +27,21 @@ describe("user.routes", () => {
                 admin: false
             });
         });
+
+        it("Should be able to create new users", async () => {
+            const randomUser = createUser();
+            await request(app).post("/users")
+                .send({
+                    name: randomUser.name,
+                    email: randomUser.email
+                });
+            const response = await request(app).post("/users")
+                .send({
+                    name: randomUser.name,
+                    email: randomUser.email
+                })
+                .expect(400);
+            expect(response.body.error).toBe("Email is already taken");
+        });
     });
 });
