@@ -73,4 +73,25 @@ describe("user.routes", () => {
         
     });
 
+    describe("[GET] /:user_id", () => {
+        it("Should be able to get user profile by ID", async () => {
+            const randomUser = createUser();
+            const { body: createdUser } = await request(app).post("/users")
+                .send({ name: randomUser.name, email: randomUser.email });
+            const { body: findedUser } = await request(app).get(`/users/${createdUser.id}`)
+                .expect(200);
+            expect(findedUser).toMatchObject(createdUser);
+        });
+
+        // it("Should not be able to turn a non existing user as admin", async () => {
+        //     const notExistingId = "not_existing_id";
+        //     const response = await request(app).patch(`/users/${notExistingId}/admin`)
+        //         .expect(400);
+        //     expect(response.body).toMatchObject({
+        //         error: "User not found"
+        //     });
+        // });
+        
+    });
+
 });
