@@ -1,7 +1,7 @@
 import request from "supertest";
 import { app } from "../..";
 import { UserRepositoryMemory } from "../../modules/users/repositories/implementations/UserRepositoryMemory";
-import { createUser } from "../modules/users/builders/UserBuilder";
+import { createUser, createUserAdmin } from "../modules/users/builders/UserBuilder";
 
 describe("user.routes", () => {
     
@@ -45,7 +45,7 @@ describe("user.routes", () => {
         });
     });
 
-    describe("[PATCH] /:user_id/admin", () => {
+    describe("[PATCH] /users/:user_id/admin", () => {
         it("Should be able to turn an user as admin", async () => {
             const randomUser = createUser();
             const { body: createdUser } = await request(app).post("/users")
@@ -73,7 +73,7 @@ describe("user.routes", () => {
         
     });
 
-    describe("[GET] /:user_id", () => {
+    describe("[GET] /users/:user_id", () => {
         it("Should be able to get user profile by ID", async () => {
             const randomUser = createUser();
             const { body: createdUser } = await request(app).post("/users")
@@ -91,6 +91,36 @@ describe("user.routes", () => {
                 error: "User not found"
             });
         });
+        
+    });
+    
+    describe("[GET] /users", () => {
+        it("Should be able to list all users", async () => {
+            const randomUsers = [ createUser(), createUser(), createUser(), createUserAdmin() ];
+            const createdUsers = [];
+            for (const user of randomUsers) {
+                const { body: createdUser } = await request(app)
+                    .post("/users")
+                    .send({ name: user.name, email: user.email, admin: user.admin });
+                createdUsers.push(createdUser);
+            }
+            const { body: findedUsers } = await request(app)
+                .get("/users")
+                .set("user_id", createdUsers.find(u => u.admin).id)
+                .expect(200);
+            for (const user of createdUsers) {
+                expect(findedUsers.find((u: { id: any; }) => user.id == u.id)).toMatchObject(user);
+            }
+        });
+
+        // it("Should not be able to show profile of a non existing user", async () => {
+        //     const notExistingId = "not_existing_id";
+        //     const response = await request(app).get(`/users/${notExistingId}`)
+        //         .expect(404);
+        //     expect(response.body).toMatchObject({
+        //         error: "User not found"
+        //     });
+        // });
         
     });
 

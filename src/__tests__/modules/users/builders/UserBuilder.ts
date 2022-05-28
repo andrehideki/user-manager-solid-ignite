@@ -5,4 +5,9 @@ function createUser(): User {
     return new User("", `User_${randomNumber}`, false, `user.${randomNumber}@mail.com`, new Date(), new Date());
 }
 
-export { createUser };
+function createUserAdmin(): User {
+    const randomNumber = Math.random() * 10000;
+    return new User("", `User_${randomNumber}`, true, `user.${randomNumber}@mail.com`, new Date(), new Date());
+}
+
+export { createUser, createUserAdmin };
