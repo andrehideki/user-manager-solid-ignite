@@ -113,14 +113,19 @@ describe("user.routes", () => {
             }
         });
 
-        // it("Should not be able to show profile of a non existing user", async () => {
-        //     const notExistingId = "not_existing_id";
-        //     const response = await request(app).get(`/users/${notExistingId}`)
-        //         .expect(404);
-        //     expect(response.body).toMatchObject({
-        //         error: "User not found"
-        //     });
-        // });
+        it("Should not be able to a non admin user get list of all users", async () => {
+            const randomUser = createUser();
+            const { body: createdUser } = await request(app)
+                .post("/users")
+                .send({ name: randomUser.name, email: randomUser.email });
+            const response = await request(app)
+                .get("/users")
+                .set("user_id", createdUser.id)
+                .expect(400);
+            expect(response.body).toMatchObject({
+                error: "Not allowed"
+            });
+        });
         
     });
 
