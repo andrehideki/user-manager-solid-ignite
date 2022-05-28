@@ -3,6 +3,8 @@ import asyncHandler from "express-async-handler";
 import { UserRepositoryMemory } from "../modules/users/repositories/implementations/UserRepositoryMemory";
 import { CreateUserController } from "../modules/users/useCases/createUser/CreateUserController";
 import { CreateUserUseCase } from "../modules/users/useCases/createUser/CreateUserUseCase";
+import { TurnUserAdminController } from "../modules/users/useCases/turnUserAdmin/TurnUserAdminController";
+import { TurnUserAdminUseCase } from "../modules/users/useCases/turnUserAdmin/TurnUserAdminUseCase";
 
 const userRoutes = Router();
 const userRepository = UserRepositoryMemory.getInstance();
@@ -14,9 +16,11 @@ userRoutes.post("/", asyncHandler(async (request, response) => {
 }));
 
 // A rota deve receber, nos parâmetros da rota, o `id` de um usuário e transformar esse usuário em admin.
-userRoutes.patch("/:user_id/admin", (request, response) => {
-    return response.send();
-});
+userRoutes.patch("/:user_id/admin", asyncHandler(async (request, response) => {
+    const turnUserAdminUseCase = new TurnUserAdminUseCase(userRepository);
+    const turnUserAdminController = new TurnUserAdminController(turnUserAdminUseCase);
+    await turnUserAdminController.handle(request, response);
+}));
 
 //A rota deve receber, nos parâmetros da rota, o `id` de um usuário e devolver as informações do usuário encontrado pelo corpo da resposta.
 userRoutes.get("/:user_id", (request, response) => {

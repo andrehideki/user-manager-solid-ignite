@@ -1,18 +1,18 @@
 import { User } from "../../../../../modules/users/models/User";
 import { UserRepositoryMemory } from "../../../../../modules/users/repositories/implementations/UserRepositoryMemory";
 import { IUserRepository } from "../../../../../modules/users/repositories/IUserRepository";
-import { TurnUserAdminUsecase } from "../../../../../modules/users/useCases/turnUserAdmin/TurnUserAdminUseCase";
+import { TurnUserAdminUseCase } from "../../../../../modules/users/useCases/turnUserAdmin/TurnUserAdminUseCase";
 import { createUser } from "../../builders/UserBuilder";
 
 describe("TurnUserAdminUseCase", () => {
 
-    let turnUserAdminUsecase: TurnUserAdminUsecase;
+    let turnUserAdminUsecase: TurnUserAdminUseCase;
     let userRepository: IUserRepository;
     let user: User;
 
     beforeEach(async () => {
         userRepository = UserRepositoryMemory.getInstance();
-        turnUserAdminUsecase = new TurnUserAdminUsecase(userRepository);
+        turnUserAdminUsecase = new TurnUserAdminUseCase(userRepository);
         user = createUser();
         user = await userRepository.create({ name: user.name, email: user.email });
     });

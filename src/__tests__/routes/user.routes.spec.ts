@@ -44,4 +44,24 @@ describe("user.routes", () => {
             expect(response.body.error).toBe("Email is already taken");
         });
     });
+
+    describe("[PATCH] /:user_id/admin", () => {
+        it("Should be able to turn an user as admin", async () => {
+            const randomUser = createUser();
+            const { body: createdUser } = await request(app).post("/users")
+                .send({
+                    name: randomUser.name,
+                    email: randomUser.email
+                });
+            const { body: updatedUserAsAdmin } = await request(app).patch(`/users/${createdUser.id}/admin`)
+                .expect(200);
+            expect(updatedUserAsAdmin).toMatchObject({
+                name: randomUser.name,
+                email: randomUser.email,
+                admin: true
+            });
+        });
+        
+    });
+
 });

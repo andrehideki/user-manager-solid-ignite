@@ -1,6 +1,6 @@
 import { IUserRepository } from "../../repositories/IUserRepository";
 
-class TurnUserAdminUsecase {
+class TurnUserAdminUseCase {
 
     constructor(private userRepository: IUserRepository) {}
 
@@ -8,8 +8,9 @@ class TurnUserAdminUsecase {
         const user = await this.userRepository.findById(id);
         if (!user) throw new Error("User not found");
         await this.userRepository.turnAdmin(user);
+        return user;
     }
 }
 
-export { TurnUserAdminUsecase };
+export { TurnUserAdminUseCase };
 
